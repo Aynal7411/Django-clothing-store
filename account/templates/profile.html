@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>My Profile</h2>
+
+<hr>
+
+<table border="1" cellpadding="10">
+
+    <tr>
+        <th>ID</th>
+        <td>{{ user.id }}</td>
+    </tr>
+
+    <tr>
+        <th>Name</th>
+        <td>{{ user.name }}</td>
+    </tr>
+
+    <tr>
+        <th>Mobile</th>
+        <td>{{ user.mobile }}</td>
+    </tr>
+
+    <tr>
+        <th>Staff</th>
+        <td>{{ user.is_staff }}</td>
+    </tr>
+
+    <tr>
+        <th>Active</th>
+        <td>{{ user.is_active }}</td>
+    </tr>
+
+</table>
+
+{% endblock %}

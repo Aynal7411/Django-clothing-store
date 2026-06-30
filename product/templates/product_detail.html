@@ -1,0 +1,24 @@
+<!-- templates/product/product_detail.html -->
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} Details{% endblock %}
+
+{% block content %}
+<h2>{{ product.name }}</h2>
+<img src="{{ product.image.url }}" alt="{{ product.name }}" width="200">
+<p>{{ product.description }}</p>
+<p>Price: ${{ product.price }}</p>
+
+
+<h3>Available Items</h3>
+<ul>
+    {% for item in product_items %}
+        <li>
+            Variant: {{ item.variant_name }} – Stock: {{ item.stock }} – Price: {{ item.price }}
+            <a href="{% url 'add_to_cart' item.id %}">Add to Cart</a>
+        </li>
+    {% empty %}
+        <li>No variations available.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

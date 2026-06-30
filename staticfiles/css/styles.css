@@ -1,0 +1,100 @@
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    color: #212529;
+}
+
+
+
+/* Category grid */
+.category-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+.category-item {
+    background-color: hsl(69, 95%, 37%);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.category-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px lab(75.7% -74.37 73.02 / 0.15);
+}
+
+.category-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #b60b52;
+}
+
+.category-name {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Empty message */
+
+
+/* Heading style */
+h1, h2, h3 {
+    color: #343a40;
+}
+
+/* Buttons (if used) */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.category-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fdfdfd;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.category-item.empty {
+    grid-column: span 2;
+    text-align: center;
+    font-style: italic;
+    color: #999;
+}
+/* Reset some basics */
+
+.category-container {
+    margin-bottom: 20px;
+}
+
+
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.product-item img {
+    display: block;
+    margin-bottom: 8px;
+    border-radius: 8px;
+}
