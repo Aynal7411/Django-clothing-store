@@ -1,11 +1,13 @@
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 
-from .models import Product
 from category.models import Category
+from .models import Product
 
 
 def product_list(request):
+
     products = Product.objects.select_related("category").filter(
         available=True
     )
@@ -16,7 +18,9 @@ def product_list(request):
     search = request.GET.get("search")
 
     if category_slug:
-        products = products.filter(category__slug=category_slug)
+        products = products.filter(
+            category__slug=category_slug
+        )
 
     if search:
         products = products.filter(
@@ -24,14 +28,27 @@ def product_list(request):
             Q(brand__icontains=search)
         )
 
+    # Pagination
+    paginator = Paginator(products, 12)
+
+    # Current page number
+    page_number = request.GET.get("page")
+
+    # Get page object
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        "products": products,
+        "page_obj": page_obj,
         "categories": categories,
         "selected_category": category_slug,
         "search": search,
     }
 
-    return render(request, "product_list.html", context)
+    return render(
+        request,
+        "product_list.html",
+        context,
+    )
 
 
 def product_detail(request, slug):
@@ -54,4 +71,8 @@ def product_detail(request, slug):
         "related_products": related_products,
     }
 
-    return render(request, "product_detail.html", context)
+    return render(
+        request,
+        "product_detail.html",
+        context,
+    )

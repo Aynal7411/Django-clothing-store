@@ -5,7 +5,22 @@ Products
 {% endblock %}
 
 {% block content %}
+<div class="d-flex justify-content-between mb-3">
 
+    <h3>
+
+        Products
+
+    </h3>
+
+    <span class="badge bg-dark">
+
+        Total Products :
+        {{ page_obj.paginator.count }}
+
+    </span>
+
+</div>
 <div class="container mt-4">
 
     <h2 class="mb-4">
@@ -68,7 +83,7 @@ Products
 
     <div class="row">
 
-        {% for product in products %}
+       {% for product in page_obj %}
 
         <div class="col-md-3 mb-4">
 
@@ -140,6 +155,107 @@ Products
         {% endfor %}
 
     </div>
+<nav class="mt-5">
+
+    <ul class="pagination justify-content-center">
+
+        {% if page_obj.has_previous %}
+
+        <li class="page-item">
+
+            <a
+                class="page-link"
+                href="?page=1{% if selected_category %}&category={{ selected_category }}{% endif %}{% if search %}&search={{ search }}{% endif %}"
+            >
+                First
+            </a>
+
+        </li>
+
+        <li class="page-item">
+
+            <a
+                class="page-link"
+                href="?page={{ page_obj.previous_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if search %}&search={{ search }}{% endif %}"
+            >
+                Previous
+            </a>
+
+        </li>
+
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+
+            {% if page_obj.number == num %}
+
+                <li class="page-item active">
+
+                    <span class="page-link">
+
+                        {{ num }}
+
+                    </span>
+
+                </li>
+
+            {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+
+                <li class="page-item">
+
+                    <a
+                        class="page-link"
+                        href="?page={{ num }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if search %}&search={{ search }}{% endif %}"
+                    >
+                        {{ num }}
+                    </a>
+
+                </li>
+
+            {% endif %}
+
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+
+        <li class="page-item">
+
+            <a
+                class="page-link"
+                href="?page={{ page_obj.next_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if search %}&search={{ search }}{% endif %}"
+            >
+                Next
+            </a>
+
+        </li>
+
+        <li class="page-item">
+
+            <a
+                class="page-link"
+                href="?page={{ page_obj.paginator.num_pages }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if search %}&search={{ search }}{% endif %}"
+            >
+                Last
+            </a>
+
+        </li>
+
+        {% endif %}
+
+    </ul>
+
+</nav>
+<div class="text-center mt-3">
+
+    Page
+
+    {{ page_obj.number }}
+
+    of
+
+    {{ page_obj.paginator.num_pages }}
+
+</div>
 
 </div>
 
