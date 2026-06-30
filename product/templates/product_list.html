@@ -1,43 +1,146 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}All Products{% endblock %}
+{% block title %}
+Products
+{% endblock %}
 
 {% block content %}
-<div class="category-container">
-    <ul class="category-list">
-        {% for category in categories %}
-            <li class="category-item">
-                {% if category.icon %}
-                    <img src="{{ category.icon.url }}" alt="{{ category.name }}" class="category-icon">
-                {% endif %}
-                <span class="category-name">{{ category.name }}</span>
-            </li>
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">
+        All Products
+    </h2>
+
+    <form method="get" class="row mb-4">
+
+        <div class="col-md-4">
+
+            <input
+                type="text"
+                class="form-control"
+                name="search"
+                placeholder="Search products..."
+                value="{{ search }}"
+            >
+
+        </div>
+
+        <div class="col-md-4">
+
+            <select
+                name="category"
+                class="form-select"
+            >
+
+                <option value="">
+                    All Categories
+                </option>
+
+                {% for category in categories %}
+
+                <option
+                    value="{{ category.slug }}"
+                    {% if selected_category == category.slug %}
+                    selected
+                    {% endif %}
+                >
+                    {{ category.name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <button
+                class="btn btn-primary w-100"
+            >
+                Search
+            </button>
+
+        </div>
+
+    </form>
+
+    <div class="row">
+
+        {% for product in products %}
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card h-100 shadow-sm">
+
+                <img
+                    src="{{ product.image.url }}"
+                    class="card-img-top"
+                    style="height:250px;object-fit:cover;"
+                >
+
+                <div class="card-body">
+
+                    <h5>
+                        {{ product.name }}
+                    </h5>
+
+                    <p>
+
+                        {{ product.category.name }}
+
+                    </p>
+
+                    {% if product.discount_price %}
+
+                        <h5 class="text-danger">
+
+                            ৳{{ product.discount_price }}
+
+                        </h5>
+
+                        <del>
+
+                            ৳{{ product.price }}
+
+                        </del>
+
+                    {% else %}
+
+                        <h5>
+
+                            ৳{{ product.price }}
+
+                        </h5>
+
+                    {% endif %}
+
+                    <a
+                        href="{% url 'product_detail' product.slug %}"
+                        class="btn btn-dark w-100 mt-3"
+                    >
+                        View Details
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
         {% empty %}
-            <li class="category-item empty">No categories available</li>
+
+        <h4>
+
+            No Products Found
+
+        </h4>
+
         {% endfor %}
-    </ul>
+
+    </div>
+
 </div>
-
-<h2>All Products</h2>
-<ul class="product-list">
-    {% for product in products %}
-    <li class="product-item">
-        <strong>{{ product.name }}</strong> - ${{ product.price }}
-
-        <ul>
-            {% for item in product.productitem_set.all %}
-                <li>
-                    Variant: {{ item.variant_name }} - Price: {{ item.price }}
-                    <a href="{% url 'add_to_cart' item.id %}">Add to Cart</a>
-                </li>
-            {% empty %}
-                <li>No variations available.</li>
-            {% endfor %}
-        </ul>
-    </li>
-{% empty %}
-    <li>No products available.</li>
-{% endfor %}
-
 
 {% endblock %}
